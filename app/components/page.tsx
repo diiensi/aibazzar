@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -7,6 +8,8 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
+import { Stepper } from "@/components/layout/Stepper";
+import { Modal } from "@/components/ui/Modal";
 
 export default function ComponentShowcase() {
   return (
@@ -17,10 +20,13 @@ export default function ComponentShowcase() {
       <Section title="Colors">
         <div className="flex flex-wrap gap-6">
           {[
-            ["primary","bg-primary"],["accent","bg-accent"],
-            ["surface","bg-surface border border-slate-200"],
-            ["success","bg-success"],["warning","bg-warning"],
-            ["danger","bg-danger"],["text","bg-text"],
+            ["primary", "bg-primary"],
+            ["accent", "bg-accent"],
+            ["surface", "bg-surface border border-slate-200"],
+            ["success", "bg-success"],
+            ["warning", "bg-warning"],
+            ["danger", "bg-danger"],
+            ["text", "bg-text"],
           ].map(([name, cls]) => (
             <div key={name} className="flex flex-col items-center gap-2">
               <div className={`h-16 w-16 rounded-md ${cls}`} />
@@ -85,6 +91,13 @@ export default function ComponentShowcase() {
           </div>
         </div>
       </Section>
+
+      <Section title="Layout & overlays">
+        <div className="max-w-md space-y-6">
+          <Stepper current={2} total={4} />
+          <ModalDemo />
+        </div>
+      </Section>
     </main>
   );
 }
@@ -95,5 +108,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <h2 className="mb-4 text-lg font-semibold">{title}</h2>
       {children}
     </section>
+  );
+}
+
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Modal open={open} onClose={() => setOpen(false)} title="Example modal">
+        <p className="text-sm text-muted">
+          This is a reusable modal dialog. Press Escape or click outside to close.
+        </p>
+      </Modal>
+    </>
   );
 }
